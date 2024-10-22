@@ -3,12 +3,15 @@ package frame;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import DeliveryVO.Category;
+import DeliveryVO.FoodDeliveryApp;
 import frame.FrameBase;
 import frame.FrameLogin;
 import frame.FrameNewMember;
@@ -21,6 +24,9 @@ public class FrameHome extends JPanel {
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
 		setSize(500, 800);
+
+		FoodDeliveryApp app = FoodDeliveryApp.getInstance();
+		List<Category> categoryList = app.getCategories();
 		
 		
 		// 로그인 버튼
