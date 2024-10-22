@@ -6,13 +6,14 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Frame1_1 extends JPanel {
-
+    
     public static void showRestaurantMenu(Restaurant restaurant) {
+        // 메뉴 패널 생성
         JPanel menuPanel = new JPanel();
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
 
         JLabel restaurantNameLabel = new JLabel("메뉴 목록 - " + restaurant.getName());
-        restaurantNameLabel.setFont(new Font("", Font.BOLD, 20));
+        restaurantNameLabel.setFont(new Font("", Font.BOLD, 15));
         restaurantNameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         menuPanel.add(restaurantNameLabel);
         menuPanel.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -26,7 +27,7 @@ public class Frame1_1 extends JPanel {
             // 메뉴 이미지 추가
             String imagePath = "img/menu_image.png"; // 메뉴 이미지 경로
             JButton menuImageButton = new JButton(new ImageIcon(new ImageIcon(imagePath).getImage().getScaledInstance(160, 120, Image.SCALE_SMOOTH)));
-            menuImageButton.setPreferredSize(new Dimension(160, 120));
+            menuImageButton.setPreferredSize(new Dimension(125, 95));
             menuImageButton.setContentAreaFilled(false);
             menuImageButton.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 
@@ -35,13 +36,13 @@ public class Frame1_1 extends JPanel {
             infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 
             JLabel menuNameLabel = new JLabel(menu.getMenuName());
-            menuNameLabel.setFont(new Font("", Font.BOLD, 18));
+            menuNameLabel.setFont(new Font("", Font.BOLD, 13));
 
             JLabel priceLabel = new JLabel("가격: " + menu.getPrice() + "원");
-            priceLabel.setFont(new Font("굴림체 보통", Font.PLAIN, 16));
+            priceLabel.setFont(new Font("굴림체 보통", Font.PLAIN, 11));
 
             JLabel descriptionLabel = new JLabel("설명: " + menu.getDescription());
-            descriptionLabel.setFont(new Font("굴림체 보통", Font.PLAIN, 16));
+            descriptionLabel.setFont(new Font("굴림체 보통", Font.PLAIN, 11));
 
             // 정보 패널에 추가
             infoPanel.add(menuNameLabel);
@@ -58,8 +59,17 @@ public class Frame1_1 extends JPanel {
             menuPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         }
 
-        // 메뉴 패널을 새로운 프레임으로 표시
-        FrameBase.getDispose();  // 현재 프레임 닫기
-        FrameBase.getInstance(menuPanel);  // 메뉴를 표시하는 패널로 전환
+        // 메뉴 패널을 스크롤 패널로 감싸기
+        JScrollPane scrollPane = new JScrollPane(menuPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setPreferredSize(new Dimension(520, 450)); // 스크롤 영역 크기 설정
+
+        // 새로운 JFrame 생성
+        JFrame frame = new JFrame("메뉴 목록");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 프레임 닫기 설정
+        frame.add(scrollPane);
+        frame.pack(); // 적절한 크기로 조정
+        frame.setLocationRelativeTo(null); // 화면 중앙에 위치
+        frame.setVisible(true); // 프레임 표시
     }
 }
