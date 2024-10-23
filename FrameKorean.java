@@ -15,30 +15,12 @@ public class FrameKorean extends JPanel {
     private JPanel listPanel; // 음식점 리스트가 담길 패널
     private JScrollPane scrollPane; // 스크롤 패널
 
-    public FrameKorean(JPanel homePanel) {
+    public FrameKorean(JPanel homePanel, String name, String address) {
         this.frameKoreanPanel = homePanel;
         setBackground(new Color(255, 255, 255));
         setLayout(null);
         setSize(500, 800);
-
-        // 뒤로가기 버튼
-        ImageIcon bbt = new ImageIcon("img/back_icon.png");
-        JButton btnBack = new JButton(bbt);
-        btnBack.setSize(36, 38);
-        btnBack.setLocation(60, 50);
-        btnBack.setContentAreaFilled(false);
-        btnBack.setBorderPainted(false);
-        btnBack.setFocusPainted(false);
-        add(btnBack);
-
-        // 뒤로가기 버튼 액션
-        btnBack.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                FrameBase.getDispose();
-                FrameBase.getInstance(new FrameCategory(homePanel));
-            }
-        });
+       
 
         // 제목 레이블
         JLabel titleLabel = new JLabel("한식");
@@ -55,6 +37,8 @@ public class FrameKorean extends JPanel {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setBounds(0, 100, 500, 600);
         add(scrollPane);
+
+       
 
         // 음식점 목록을 초기화하고 추가하는 메소드 호출
         loadKoreanRestaurants();
@@ -74,7 +58,8 @@ public class FrameKorean extends JPanel {
 
         // 이미지 버튼 클릭 시 액션 리스너 추가
         imageButton.addActionListener(e -> {
-            Frame1_1.showRestaurantMenu(restaurant);
+            FrameBase.getDispose();
+            Frame1_1.showRestaurantMenu(restaurant, frameKoreanPanel, getName(), TOOL_TIP_TEXT_KEY); // 이름과 주소를 전달
         });
 
         // 음식점 정보 추가

@@ -1,16 +1,85 @@
 package frame;
 
+import DeliveryVO.Cart;
 import DeliveryVO.Menu;
 import DeliveryVO.Restaurant;
+import DeliveryVO.Review;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Frame1_1 extends JPanel {
-    
-    public static void showRestaurantMenu(Restaurant restaurant) {
+
+    private static JFrame frame;  // JFrame을 전역 변수로 저장
+    public static void showRestaurantMenu(Restaurant restaurant,JPanel homePanel,String name,String address) {
+
+
+
+        frame = new JFrame("메뉴 목록");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 프레임 닫기 설정
+        frame.setSize(500, 800); // 프레임 크기 설정
+
+        // 배경 패널 생성
+        JPanel backgroundPanel = new JPanel();
+        backgroundPanel.setLayout(null); // 레이아웃을 null로 설정
+        // 뒤로가기 버튼
+        ImageIcon bbt = new ImageIcon("img/back_icon.png");
+        JButton btnBack= new JButton(bbt);
+        btnBack.setSize(36, 38);
+        btnBack.setLocation(60, 59);
+        btnBack.setContentAreaFilled(false);
+        btnBack.setBorderPainted(false);
+        btnBack.setFocusPainted(false);
+
+        // 뒤로가기 버튼
+        btnBack.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();  // 현재 열려 있는 프레임을 닫음
+                FrameBase.getInstance(new FrameCategory(homePanel,name,address));  // FrameCategory로 전환
+            }
+        });
+        // 리뷰보기 버튼
+        ImageIcon reviewIcon = new ImageIcon("img/store_review_btn.png");
+        JButton btnReview = new JButton(reviewIcon);
+        btnReview.setSize(117, 35);
+        btnReview.setLocation(200, 280);
+
+        btnReview.setContentAreaFilled(false);
+        btnReview.setBorderPainted(false);
+        btnReview.setFocusPainted(false);
+
+        backgroundPanel.add(btnReview);
+        backgroundPanel.add(btnBack);
+
+        btnReview.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 리뷰 읽기
+                Review review = new Review();
+                String reviews = review.readReviews(restaurant.getName());
+
+                // 리뷰를 팝업 창으로 보여주기
+                JOptionPane.showMessageDialog(frame, reviews.isEmpty() ? "작성된 리뷰가 없습니다." : reviews, "리뷰 보기", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+
+
+        JLabel lblImage = new JLabel();
+        lblImage.setBounds(0, 0, 500, 420);
+        lblImage.setIcon(new ImageIcon("img/store1_1.jpg")); // 이미지 추가
+        backgroundPanel.add(lblImage); // 배경 패널에 이미지 추가
+
+
+
+
         // 메뉴 패널 생성
         JPanel menuPanel = new JPanel();
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
+        menuPanel.setBounds(0, 420, 500, 380); // 메뉴 패널 위치 및 크기 설정
 
         JLabel restaurantNameLabel = new JLabel("메뉴 목록 - " + restaurant.getName());
         restaurantNameLabel.setFont(new Font("", Font.BOLD, 15));
@@ -44,10 +113,37 @@ public class Frame1_1 extends JPanel {
             JLabel descriptionLabel = new JLabel("설명: " + menu.getDescription());
             descriptionLabel.setFont(new Font("굴림체 보통", Font.PLAIN, 11));
 
+            // 수량 조절 스피너 추가
+            JPanel quantityPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            JLabel quantityLabel = new JLabel("수량: ");
+            JSpinner quantitySpinner = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1)); // 초기값 1, 최소 1, 최대 100, 증가 단위
+            // 1
+            quantitySpinner.setPreferredSize(new Dimension(50, 20));
+            quantityPanel.add(quantityLabel);
+            quantityPanel.add(quantitySpinner);
+
+            // 담기 버튼 추가
+            ImageIcon addToCartIcon = new ImageIcon("img/put_btn.png"); // 이미지 경로
+            JButton btnAddToCart = new JButton(addToCartIcon);
+            btnAddToCart.setContentAreaFilled(false); // 버튼 배경을 투명하게 설정
+            btnAddToCart.setBorderPainted(false); // 버튼 경계선 제거
+            btnAddToCart.addActionListener(e -> {
+                int quantity = (Integer) quantitySpinner.getValue();
+                Cart.getInstance().addItems(menu, quantity,restaurant);
+                JOptionPane.showMessageDialog(frame, menu.getMenuName() + " " + quantity + "개가 담겼습니다!");
+            });
+
+
+
+
+
             // 정보 패널에 추가
             infoPanel.add(menuNameLabel);
             infoPanel.add(priceLabel);
             infoPanel.add(descriptionLabel);
+            infoPanel.add(quantityPanel); // 수량 조절 패널 추가
+            infoPanel.add(btnAddToCart); // 담기 버튼 추가
+
 
             // 메뉴 아이템 패널에 이미지와 정보 패널 추가
             menuItemPanel.add(menuImageButton);
@@ -62,13 +158,16 @@ public class Frame1_1 extends JPanel {
         // 메뉴 패널을 스크롤 패널로 감싸기
         JScrollPane scrollPane = new JScrollPane(menuPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setPreferredSize(new Dimension(520, 450)); // 스크롤 영역 크기 설정
+        scrollPane.setBounds(0, 420, 500, 380); // 스크롤 패널 위치 및 크기 설정
+        backgroundPanel.add(scrollPane); // 배경 패널에 스크롤 패널 추가
 
-        // 새로운 JFrame 생성
-        JFrame frame = new JFrame("메뉴 목록");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 프레임 닫기 설정
-        frame.add(scrollPane);
-        frame.pack(); // 적절한 크기로 조정
+        // 오른쪽에 버튼 추가
+        JButton sideButton = new JButton("사이드 버튼");
+        sideButton.setBounds(450, 420, 50, 30); // 사이드 버튼 위치 및 크기 설정
+        backgroundPanel.add(sideButton);
+
+        // 배경 패널을 프레임에 추가
+        frame.add(backgroundPanel);
         frame.setLocationRelativeTo(null); // 화면 중앙에 위치
         frame.setVisible(true); // 프레임 표시
     }
