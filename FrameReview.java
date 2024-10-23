@@ -38,7 +38,7 @@ public class FrameReview extends JPanel {
 
         // 리뷰를 불러오기
         Review review = new Review();
-        String reviews = review.readReviews(name);
+        String reviews = review.readReviews();
 
         // 리뷰 목록을 표시하는 JTextArea
         JTextArea reviewArea = new JTextArea(reviews);
@@ -70,7 +70,7 @@ public class FrameReview extends JPanel {
     		public void actionPerformed(ActionEvent e) {
     		// 여기로 이동함
     		FrameBase.getDispose();
-    		FrameBase.getInstance(new FrameCategory(homePanel,JComponent.TOOL_TIP_TEXT_KEY,JComponent.TOOL_TIP_TEXT_KEY));
+    		FrameBase.getInstance(new FrameCategory(homePanel,name,""));
     	}
     });
 

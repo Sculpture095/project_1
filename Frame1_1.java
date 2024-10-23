@@ -57,12 +57,11 @@ public class Frame1_1 extends JPanel {
         btnReview.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // 리뷰 읽기
-                Review review = new Review();
-                String reviews = review.readReviews(restaurant.getName());
 
-                // 리뷰를 팝업 창으로 보여주기
-                JOptionPane.showMessageDialog(frame, reviews.isEmpty() ? "작성된 리뷰가 없습니다." : reviews, "리뷰 보기", JOptionPane.INFORMATION_MESSAGE);
+
+                // 리뷰 보기 화면으로 이동
+                FrameBase.getDispose();
+                FrameBase.getInstance(new FrameReview(homePanel, restaurant.getName()));
             }
         });
 
