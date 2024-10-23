@@ -56,9 +56,8 @@ public class FrameNewMember extends JPanel{
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-				// 여기로 이동함
-				FrameBase.getDispose();
-				FrameBase.getInstance(new FrameNewMemberCheck(homePanel));
+					FrameBase.getDispose(); // 현재 프레임 닫기
+					FrameBase.getInstance(new FrameNewMemberCheck(homePanel)); // 새로운 프레임으로 전환
 			}
 		});
 				
@@ -67,9 +66,8 @@ public class FrameNewMember extends JPanel{
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-				// 여기로 이동함
-				FrameBase.getDispose();
-				FrameBase.getInstance(new FrameHome(homePanel));
+					FrameBase.getDispose(); // 현재 프레임 닫기
+					FrameBase.getInstance(homePanel); // 이전 화면으로 전환
 			}
 		});
 

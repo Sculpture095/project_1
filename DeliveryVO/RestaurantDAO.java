@@ -1,7 +1,12 @@
 package DeliveryVO;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class RestaurantDAO {
 
+    private static Map<String, Category> categories = new HashMap<>();
+    private static Map<String, Restaurant> restaurantMap = new HashMap<>();
     public static void init(FoodDeliveryApp app) {
 
         Category korean = new Category("한식");
@@ -359,7 +364,75 @@ public class RestaurantDAO {
         cafe.addRestaurant(cafeRestaurant4);
         cafe.addRestaurant(cafeRestaurant5);
 
+        //특정 카테고리 가져오는 메소드
+        categories.put("한식", korean);
+        categories.put("중식", chinese);
+        categories.put("일식", japanese);
+        categories.put("양식", western);
+        categories.put("치킨", chicken);
+        categories.put("분식", snackFood);
+        categories.put("패스트푸드", fastFood);
+        categories.put("고기", meat);
+        categories.put("카페/디저트", cafe);
+
+        // 카테고리들을 앱에 설정
+        app.addCategory(korean);
+        app.addCategory(chinese);
+        app.addCategory(japanese);
+        app.addCategory(western);
+        app.addCategory(chicken);
+        app.addCategory(snackFood);
+        app.addCategory(fastFood);
+        app.addCategory(meat);
+        app.addCategory(cafe);
+
 
 
     }
+
+    public static Category getCategory(String categoryName){
+        return categories.get(categoryName);
+    }
+
+    // 한식 음식점 리스트를 반환하는 메서드 추가
+    public static Restaurant[] getKoreanRestaurants() {
+        Category korean = categories.get("한식");
+        return korean != null ? korean.getRestaurantList().toArray(new Restaurant[0]) : new Restaurant[0];
+    }
+
+    // 기타 음식점 정보 가져오는 메서드들 (배달비, 평점 등)
+    public static Restaurant getRestaurant(String restaurantName) {
+        return restaurantMap.get(restaurantName);
+    }
+
+    public Restaurant getRestaurantByName(String name) {
+        return restaurantMap.get(name);
+    }
+
+
+
+//    //음식점 이름을 반환
+//    public static  Restaurant getRestaurant(String restaurantName){
+//        return restaurantMap.get(restaurantName);
+//    }
+    //음식점의 배달비를 반환
+    public static long getDeliveryPrice(String restaurantName){
+        return getRestaurant(restaurantName).getDeliveryPrice();
+    }
+
+
+//    //음식점의 평점을 반환
+//    public static double getRestaurantScore(String restaurantName){
+//        return getRestaurant(restaurantName).getRestaurantScore();
+//    }
+//    //음식점의 거리를 반환
+//    public static double getRestaurantDistance(String restaurantName){
+//        return getRestaurant(restaurantName).getDistance();
+//    }
+//    //메뉴의 설명을 반환
+//    public static String getRestaurantDescription(Menu menu){
+//        return menu.getDescription();
+//    }
+
+
 }

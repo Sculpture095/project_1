@@ -34,9 +34,8 @@ public FrameNewMemberCheck(JPanel homePanel) {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-		// 여기로 이동함
-		FrameBase.getDispose();
-		FrameBase.getInstance(new FrameLogin(homePanel));
+			FrameBase.getDispose(); // 현재 프레임 닫기
+			FrameBase.getInstance(new FrameLogin(homePanel)); // 새로운 프레임으로 전환
 			}
 		});
 		

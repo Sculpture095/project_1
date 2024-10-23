@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import DeliveryVO.Category;
+import DeliveryVO.RestaurantDAO;
 import frame.foodcategory.FrameAmerican;
 import frame.foodcategory.FrameBunsik;
 import frame.foodcategory.FrameCafe;
@@ -127,8 +129,9 @@ public class FrameCategory extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// 여기로 이동함
-				FrameBase.getDispose();
-				FrameBase.getInstance(new FrameKorean(homePanel));
+				Category koreanCategory = RestaurantDAO.getCategory("한식");
+				FrameBase.getDispose(); // 현재 프레임 닫기
+				FrameBase.getInstance(new FrameKorean(homePanel)); // 새로운 프레임으로 전환
 			}
 		});
 		// 중식버튼 누르면
@@ -137,8 +140,8 @@ public class FrameCategory extends JPanel {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// 여기로 이동함
-						FrameBase.getDispose();
-						FrameBase.getInstance(new FrameChina(homePanel));
+						FrameBase.getDispose(); // 현재 프레임 닫기
+						FrameBase.getInstance(new FrameChina(homePanel)); // 새로운 프레임으로 전환
 					}
 				});
 
@@ -148,8 +151,8 @@ public class FrameCategory extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// 여기로 이동함
-				FrameBase.getDispose();
-				FrameBase.getInstance(new FrameJapan(homePanel));
+				FrameBase.getDispose(); // 현재 프레임 닫기
+				FrameBase.getInstance(new FrameJapan(homePanel)); // 새로운 프레임으로 전환
 			}
 		});
 		// 양식버튼 누르면
@@ -158,8 +161,8 @@ public class FrameCategory extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// 여기로 이동함
-				FrameBase.getDispose();
-				FrameBase.getInstance(new FrameAmerican(homePanel));
+				FrameBase.getDispose(); // 현재 프레임 닫기
+				FrameBase.getInstance(new FrameAmerican(homePanel)); // 새로운 프레임으로 전환
 			}
 		});
 		// 치킨버튼 누르면
@@ -168,8 +171,8 @@ public class FrameCategory extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// 여기로 이동함
-				FrameBase.getDispose();
-				FrameBase.getInstance(new FrameChicken(homePanel));
+				FrameBase.getDispose(); // 현재 프레임 닫기
+				FrameBase.getInstance(new FrameChicken(homePanel)); // 새로운 프레임으로 전환
 			}
 		});
 		// 분식버튼 누르면
@@ -178,8 +181,8 @@ public class FrameCategory extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// 여기로 이동함
-				FrameBase.getDispose();
-				FrameBase.getInstance(new FrameBunsik(homePanel));
+				FrameBase.getDispose(); // 현재 프레임 닫기
+				FrameBase.getInstance(new FrameBunsik(homePanel)); // 새로운 프레임으로 전환
 			}
 		});
 		// 패스트푸드버튼 누르면
@@ -187,9 +190,8 @@ public class FrameCategory extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// 여기로 이동함
-				FrameBase.getDispose();
-				FrameBase.getInstance(new FrameFastfood(homePanel));
+				FrameBase.getDispose(); // 현재 프레임 닫기
+				FrameBase.getInstance(new FrameFastfood(homePanel)); // 새로운 프레임으로 전환
 			}
 		});
 		// 고기버튼 누르면
@@ -197,9 +199,8 @@ public class FrameCategory extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// 여기로 이동함
-				FrameBase.getDispose();
-				FrameBase.getInstance(new FrameMeat(homePanel));
+				FrameBase.getDispose(); // 현재 프레임 닫기
+				FrameBase.getInstance(new FrameMeat(homePanel)); // 새로운 프레임으로 전환
 			}
 		});
 		// 카페/디저트버튼 누르면
@@ -207,13 +208,12 @@ public class FrameCategory extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// 여기로 이동함
-				FrameBase.getDispose();
-				FrameBase.getInstance(new FrameCafe(homePanel));
+				FrameBase.getDispose(); // 현재 프레임 닫기
+				FrameBase.getInstance(new FrameCafe(homePanel)); // 새로운 프레임으로 전환
 			}
 		});
 
-	
+
 
 		// 찜버튼 버튼
 		ImageIcon ggimbt = new ImageIcon("img/heart_icon.png");
@@ -273,9 +273,8 @@ public class FrameCategory extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// 여기로 이동함
-				FrameBase.getDispose();
-				
-				FrameBase.getInstance(new FrameGgim(homePanel));
+				FrameBase.getDispose(); // 현재 프레임 닫기
+				FrameBase.getInstance(new FrameGgim(homePanel)); // 새로운 프레임으로 전환
 				
 			}
 		});
@@ -284,9 +283,8 @@ public class FrameCategory extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// 여기로 이동함
-				FrameBase.getDispose();
-				FrameBase.getInstance(new FrameOrder(homePanel));
+				FrameBase.getDispose(); // 현재 프레임 닫기
+				FrameBase.getInstance(new FrameOrder(homePanel)); // 새로운 프레임으로 전환
 			}
 		});
 		// 카테고리버튼 누르면
@@ -294,9 +292,8 @@ public class FrameCategory extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// 여기로 이동함
-				FrameBase.getDispose();
-				FrameBase.getInstance(new FrameCategory(homePanel));
+				FrameBase.getDispose(); // 현재 프레임 닫기
+				FrameBase.getInstance(new FrameCategory(homePanel)); // 새로운 프레임으로 전환
 			}
 		});
 		// 장바구니버튼 누르면
@@ -304,9 +301,8 @@ public class FrameCategory extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// 여기로 이동함
-				FrameBase.getDispose();
-				FrameBase.getInstance(new FrameCart(homePanel));
+				FrameBase.getDispose(); // 현재 프레임 닫기
+				FrameBase.getInstance(new FrameCart(homePanel)); // 새로운 프레임으로 전환
 			}
 		});
 		// 마이페이지 누르면
@@ -314,9 +310,8 @@ public class FrameCategory extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// 여기로 이동함
-				FrameBase.getDispose();
-				FrameBase.getInstance(new FrameMypage(homePanel));
+				FrameBase.getDispose(); // 현재 프레임 닫기
+				FrameBase.getInstance(new FrameMypage(homePanel)); // 새로운 프레임으로 전환
 			}
 		});
 

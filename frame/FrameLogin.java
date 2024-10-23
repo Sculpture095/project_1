@@ -48,7 +48,6 @@ public class FrameLogin extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// 여기로 이동함
 				FrameBase.getDispose();
 				FrameBase.getInstance(new FrameCategory(homePanel));
 			}
@@ -59,9 +58,8 @@ public class FrameLogin extends JPanel{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-		// 여기로 이동함
-		FrameBase.getDispose();
-		FrameBase.getInstance(new FrameHome(homePanel));
+			FrameBase.getDispose(); // 현재 프레임 닫기
+			FrameBase.getInstance(new Frame1_1()); // 새로운 프레임으로 전환
 	}
 });
 		

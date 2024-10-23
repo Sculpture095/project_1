@@ -78,58 +78,45 @@ JPanel frameChickenPanel;
 				add(btnCart);
 				add(btnMypage);
 
-				// 찜버튼 누르면
-				btnGgim.addActionListener(new ActionListener() {
+		// 찜 버튼 누르면
+		btnGgim.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// 찜 화면으로 전환
+				FrameBase.getDispose();
+				FrameBase.getInstance(new FrameGgim(homePanel));
+			}
+		});
 
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						// 여기로 이동함
-						FrameBase.getDispose();
-						
-						FrameBase.getInstance(new FrameGgim(homePanel));
-						
-					}
-				});
-				// 주문현황버튼 누르면
-				btnOrder.addActionListener(new ActionListener() {
+		// 주문현황 버튼 누르면
+		btnOrder.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// 주문 현황 화면으로 전환
+				FrameBase.getDispose();
+				FrameBase.getInstance(new FrameOrder(homePanel));
+			}
+		});
 
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						// 여기로 이동함
-						FrameBase.getDispose();
-						FrameBase.getInstance(new FrameOrder(homePanel));
-					}
-				});
-				// 카테고리버튼 누르면
-				btnCategory.addActionListener(new ActionListener() {
+		// 장바구니 버튼 누르면
+		btnCart.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// 장바구니 화면으로 전환
+				FrameBase.getDispose();
+				FrameBase.getInstance(new FrameCart(homePanel));
+			}
+		});
 
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						// 여기로 이동함
-						FrameBase.getDispose();
-						FrameBase.getInstance(new FrameCategory(homePanel));
-					}
-				});
-				// 장바구니버튼 누르면
-				btnCart.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						// 여기로 이동함
-						FrameBase.getDispose();
-						FrameBase.getInstance(new FrameCart(homePanel));
-					}
-				});
-				// 마이페이지 누르면
-				btnMypage.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						// 여기로 이동함
-						FrameBase.getDispose();
-						FrameBase.getInstance(new FrameMypage(homePanel));
-					}
-				});
+		// 마이페이지 버튼 누르면
+		btnMypage.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// 마이페이지 화면으로 전환
+				FrameBase.getDispose();
+				FrameBase.getInstance(new FrameMypage(homePanel));
+			}
+		});
 		ImageIcon mainBg = new ImageIcon("img/list_5_bg.jpg");
 		JLabel lblmb = new JLabel(mainBg);
 		lblmb.setSize(500, 800);

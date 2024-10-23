@@ -1,7 +1,14 @@
 package frame.foodcategory;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
+import DeliveryVO.Restaurant;
+import DeliveryVO.RestaurantDAO;
+import frame.Frame1_1;
+import frame.FrameBase;
+import frame.FrameCategory;
 
 public class FrameKorean extends JPanel {
     private JPanel frameKoreanPanel; // 홈 패널
@@ -14,31 +21,47 @@ public class FrameKorean extends JPanel {
         setLayout(null);
         setSize(500, 800);
 
+        // 뒤로가기 버튼
+        ImageIcon bbt = new ImageIcon("img/back_icon.png");
+        JButton btnBack = new JButton(bbt);
+        btnBack.setSize(36, 38);
+        btnBack.setLocation(60, 50);
+        btnBack.setContentAreaFilled(false);
+        btnBack.setBorderPainted(false);
+        btnBack.setFocusPainted(false);
+        add(btnBack);
+
+        // 뒤로가기 버튼 액션
+        btnBack.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FrameBase.getDispose();
+                FrameBase.getInstance(new FrameCategory(homePanel));
+            }
+        });
+
         // 제목 레이블
         JLabel titleLabel = new JLabel("한식");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setBounds(200, 50, 100, 30); // 제목 위치 설정
+        titleLabel.setFont(new Font("", Font.BOLD, 24));
+        titleLabel.setBounds(230, 50, 100, 30);
         add(titleLabel);
 
         // 음식점 리스트 패널 설정 (스크롤 가능)
         listPanel = new JPanel();
-        listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS)); // 세로로 음식점 나열
+        listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 
         // 스크롤 가능하게 JScrollPane에 리스트 패널 추가
         scrollPane = new JScrollPane(listPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setBounds(0, 100, 500, 600); // 스크롤 영역 위치와 크기 설정
+        scrollPane.setBounds(0, 100, 500, 600);
         add(scrollPane);
 
-        // 예시 음식점 3개 추가
-        addRestaurant("최대감네", "img/restaurant_image.jpg", 3.0, "대표메뉴: 김치찜", 5000, "배달시간: 30분");
-        addRestaurant("한식당", "img/restaurant_image.jpg", 4.5, "대표메뉴: 비빔밥", 3000, "배달시간: 20분");
-        addRestaurant("김치전문점", "img/restaurant_image.jpg", 4.0, "대표메뉴: 김치전", 4000, "배달시간: 25분");
+        // 음식점 목록을 초기화하고 추가하는 메소드 호출
+        loadKoreanRestaurants();
     }
 
     // 음식점 리스트에 음식점 추가 메서드
-    public void addRestaurant(String name, String imagePath, double rating, String menu, int deliveryFee, String deliveryTime) {
-        // 개별 음식점 패널
+    public void addRestaurant(Restaurant restaurant, String imagePath) {
         JPanel restaurantPanel = new JPanel();
         restaurantPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         restaurantPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -46,37 +69,48 @@ public class FrameKorean extends JPanel {
         // 음식점 이미지 버튼 추가
         JButton imageButton = new JButton(new ImageIcon(new ImageIcon(imagePath).getImage().getScaledInstance(160, 120, Image.SCALE_SMOOTH)));
         imageButton.setPreferredSize(new Dimension(160, 120));
-        imageButton.setContentAreaFilled(false); // 버튼 배경 투명하게
-        imageButton.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY)); // 버튼 테두리 추가
+        imageButton.setContentAreaFilled(false);
+        imageButton.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+
+        // 이미지 버튼 클릭 시 액션 리스너 추가
+        imageButton.addActionListener(e -> {
+            FrameBase.getDispose();
+            Frame1_1.showRestaurantMenu(restaurant, frameKoreanPanel);
+        });
 
         // 음식점 정보 추가
-        JLabel nameLabel = new JLabel(name);
-        nameLabel.setFont(new Font("Arial", Font.BOLD, 18)); // 음식점 이름 글자 크기 조정
+        JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 
-        JLabel ratingLabel = new JLabel("평균 별점: ★".repeat((int) rating) + "☆".repeat(5 - (int) rating));
-        ratingLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // 별점 글자 크기 조정
+        JLabel nameLabel = new JLabel(restaurant.getName());
+        nameLabel.setFont(new Font("", Font.BOLD, 18));
 
-        JLabel menuLabel = new JLabel(menu);
-        menuLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // 메뉴 글자 크기 조정
+        JLabel ratingLabel = new JLabel("평균 별점: " + restaurant.getRestaurantScore());
+        ratingLabel.setFont(new Font("굴림체 보통", Font.PLAIN, 16));
 
-        JLabel deliveryFeeLabel = new JLabel("배달비: " + deliveryFee + " 원");
-        deliveryFeeLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // 배달비 글자 크기 조정
+        JLabel deliveryFeeLabel = new JLabel("배달비: " + restaurant.getDeliveryPrice() + " 원");
+        deliveryFeeLabel.setFont(new Font("굴림체 보통", Font.PLAIN, 16));
 
-        JLabel deliveryTimeLabel = new JLabel(deliveryTime);
-        deliveryTimeLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // 배달시간 글자 크기 조정
+        // 정보 패널에 추가
+        infoPanel.add(nameLabel);
+        infoPanel.add(ratingLabel);
+        infoPanel.add(deliveryFeeLabel);
 
         // 패널에 추가
         restaurantPanel.add(imageButton);
-        restaurantPanel.add(Box.createRigidArea(new Dimension(10, 0))); // 이미지와 텍스트 간의 간격
-        restaurantPanel.add(nameLabel);
-        restaurantPanel.add(ratingLabel);
-        restaurantPanel.add(menuLabel);
-        restaurantPanel.add(deliveryFeeLabel);
-        restaurantPanel.add(deliveryTimeLabel);
+        restaurantPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        restaurantPanel.add(infoPanel);
 
         // 음식점 패널을 리스트 패널에 추가
         listPanel.add(restaurantPanel);
         listPanel.revalidate();
         listPanel.repaint();
+    }
+
+    // 한식 음식점을 로드하고 리스트에 추가하는 메소드
+    public void loadKoreanRestaurants() {
+        for (Restaurant restaurant : RestaurantDAO.getKoreanRestaurants()) {
+            addRestaurant(restaurant, "img/restaurant_image.png");  // 각 음식점에 이미지 경로를 전달
+        }
     }
 }
