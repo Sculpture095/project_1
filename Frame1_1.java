@@ -1,21 +1,25 @@
 package frame;
 
 import DeliveryVO.Cart;
+import DeliveryVO.Ggim;
 import DeliveryVO.Menu;
 import DeliveryVO.Restaurant;
-import DeliveryVO.Review;
+import frame.foodcategory.FrameKorean;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class Frame1_1 extends JPanel {
 
     private static JFrame frame;  // JFrame을 전역 변수로 저장
+    private Ggim ggim;
+    public Frame1_1(){
+
+    }
     public static void showRestaurantMenu(Restaurant restaurant,JPanel homePanel,String name,String address) {
-
-
 
         frame = new JFrame("메뉴 목록");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 프레임 닫기 설정
@@ -24,6 +28,23 @@ public class Frame1_1 extends JPanel {
         // 배경 패널 생성
         JPanel backgroundPanel = new JPanel();
         backgroundPanel.setLayout(null); // 레이아웃을 null로 설정
+        // 마켓 버튼
+        ImageIcon lgmt = new ImageIcon("img/small_cart_icon.png");
+        JButton btnmt = new JButton(lgmt);
+        btnmt.setSize(31, 28);
+        btnmt.setLocation(395, 300);
+        btnmt.setContentAreaFilled(false);
+        btnmt.setBorderPainted(false);
+        btnmt.setFocusPainted(false);
+        backgroundPanel.add(btnmt);
+        // 뒤로가기 버튼
+        btnmt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();  // 현재 열려 있는 프레임을 닫음
+                FrameBase.getInstance(new FrameCategory(homePanel,name,address));  // FrameCategory로 전환
+            }
+        });
         // 뒤로가기 버튼
         ImageIcon bbt = new ImageIcon("img/back_icon.png");
         JButton btnBack= new JButton(bbt);
@@ -38,42 +59,67 @@ public class Frame1_1 extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();  // 현재 열려 있는 프레임을 닫음
-                FrameBase.getInstance(new FrameCategory(homePanel,name,address));  // FrameCategory로 전환
+                FrameBase.getInstance(new FrameKorean(homePanel,name,address));  // FrameCategory로 전환
             }
         });
         // 리뷰보기 버튼
-        ImageIcon reviewIcon = new ImageIcon("img/store_review_btn.png");
-        JButton btnReview = new JButton(reviewIcon);
-        btnReview.setSize(117, 35);
-        btnReview.setLocation(200, 280);
+        ImageIcon lgbt = new ImageIcon("img/store_review_btn.png");
+        JButton btnLogin = new JButton(lgbt);
+        btnLogin.setSize(117, 35);
+        btnLogin.setLocation(200, 280);
 
-        btnReview.setContentAreaFilled(false);
-        btnReview.setBorderPainted(false);
-        btnReview.setFocusPainted(false);
+        btnLogin.setContentAreaFilled(false);
+        btnLogin.setBorderPainted(false);
+        btnLogin.setFocusPainted(false);
 
-        backgroundPanel.add(btnReview);
+        backgroundPanel.add(btnLogin);
         backgroundPanel.add(btnBack);
 
-        btnReview.addActionListener(new ActionListener() {
+        btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-
                 // 리뷰 보기 화면으로 이동
                 FrameBase.getDispose();
-                FrameBase.getInstance(new FrameReview(homePanel, restaurant.getName()));
+                FrameBase.getInstance(new FrameReview(homePanel, restaurant.getName(),address));
             }
         });
 
+        // 좋아요 버튼 추가 (단 하나의 버튼)
+        ImageIcon ggimOffIcon = new ImageIcon("img/ggim_off_icon.png");
+        ImageIcon ggimOnIcon = new ImageIcon("img/ggim_on_icon.png");
+        JButton likeButton = new JButton(ggimOffIcon);
+        likeButton.setContentAreaFilled(false);
+        likeButton.setBorderPainted(false);
+        likeButton.setFocusPainted(false);
+        likeButton.setBounds(386, 210, 50, 50); // 위치를 원하는 대로 조정 가능
 
+
+        // 클릭 시 이미지 토글 구현
+        likeButton.addActionListener(new ActionListener() {
+            private boolean isLiked = false;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (isLiked) {
+                    likeButton.setIcon(ggimOffIcon); // 좋아요 해제
+                } else {
+                    Ggim ggim = Ggim.getInstance();
+                    ggim.addGgim(restaurant);
+
+
+                    JOptionPane.showMessageDialog(null, "레스토랑이 찜 목록에 추가되었습니다.");
+                    likeButton.setIcon(ggimOnIcon); // 좋아요 선택
+                }
+                isLiked = !isLiked;
+            }
+        });
+
+        backgroundPanel.add(likeButton); // 하트 버튼을 배경 패널에 추가
 
         JLabel lblImage = new JLabel();
         lblImage.setBounds(0, 0, 500, 420);
         lblImage.setIcon(new ImageIcon("img/store1_1.jpg")); // 이미지 추가
         backgroundPanel.add(lblImage); // 배경 패널에 이미지 추가
-
-
-
 
         // 메뉴 패널 생성
         JPanel menuPanel = new JPanel();
@@ -115,8 +161,7 @@ public class Frame1_1 extends JPanel {
             // 수량 조절 스피너 추가
             JPanel quantityPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             JLabel quantityLabel = new JLabel("수량: ");
-            JSpinner quantitySpinner = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1)); // 초기값 1, 최소 1, 최대 100, 증가 단위
-            // 1
+            JSpinner quantitySpinner = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1)); // 초기값 1, 최소 1, 최대 100, 증가 단위 1
             quantitySpinner.setPreferredSize(new Dimension(50, 20));
             quantityPanel.add(quantityLabel);
             quantityPanel.add(quantitySpinner);
@@ -128,13 +173,9 @@ public class Frame1_1 extends JPanel {
             btnAddToCart.setBorderPainted(false); // 버튼 경계선 제거
             btnAddToCart.addActionListener(e -> {
                 int quantity = (Integer) quantitySpinner.getValue();
-                Cart.getInstance().addItems(menu, quantity,restaurant);
+                Cart.getInstance().addItems(menu, quantity, restaurant);
                 JOptionPane.showMessageDialog(frame, menu.getMenuName() + " " + quantity + "개가 담겼습니다!");
             });
-
-
-
-
 
             // 정보 패널에 추가
             infoPanel.add(menuNameLabel);
@@ -142,7 +183,6 @@ public class Frame1_1 extends JPanel {
             infoPanel.add(descriptionLabel);
             infoPanel.add(quantityPanel); // 수량 조절 패널 추가
             infoPanel.add(btnAddToCart); // 담기 버튼 추가
-
 
             // 메뉴 아이템 패널에 이미지와 정보 패널 추가
             menuItemPanel.add(menuImageButton);
@@ -160,12 +200,6 @@ public class Frame1_1 extends JPanel {
         scrollPane.setBounds(0, 420, 500, 380); // 스크롤 패널 위치 및 크기 설정
         backgroundPanel.add(scrollPane); // 배경 패널에 스크롤 패널 추가
 
-        // 오른쪽에 버튼 추가
-        JButton sideButton = new JButton("사이드 버튼");
-        sideButton.setBounds(450, 420, 50, 30); // 사이드 버튼 위치 및 크기 설정
-        backgroundPanel.add(sideButton);
-
-        // 배경 패널을 프레임에 추가
         frame.add(backgroundPanel);
         frame.setLocationRelativeTo(null); // 화면 중앙에 위치
         frame.setVisible(true); // 프레임 표시

@@ -13,14 +13,32 @@ import frame.FrameCategory;
 public class FrameKorean extends JPanel {
     private JPanel frameKoreanPanel; // 홈 패널
     private JPanel listPanel; // 음식점 리스트가 담길 패널
-    private JScrollPane scrollPane; // 스크롤 패널
+    private JScrollPane scrollPane;
 
     public FrameKorean(JPanel homePanel, String name, String address) {
         this.frameKoreanPanel = homePanel;
         setBackground(new Color(255, 255, 255));
         setLayout(null);
         setSize(500, 800);
-       
+
+        // 뒤로가기 버튼
+        ImageIcon bbt = new ImageIcon("img/back_icon.png");
+        JButton btnBack = new JButton(bbt);
+        btnBack.setSize(36, 38);
+        btnBack.setLocation(60, 50);
+        btnBack.setContentAreaFilled(false);
+        btnBack.setBorderPainted(false);
+        btnBack.setFocusPainted(false);
+        add(btnBack);
+
+        // 뒤로가기 버튼 액션
+        btnBack.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FrameBase.getDispose();
+                FrameBase.getInstance(new FrameCategory(homePanel, name, address));
+            }
+        });
 
         // 제목 레이블
         JLabel titleLabel = new JLabel("한식");
@@ -38,14 +56,12 @@ public class FrameKorean extends JPanel {
         scrollPane.setBounds(0, 100, 500, 600);
         add(scrollPane);
 
-       
-
         // 음식점 목록을 초기화하고 추가하는 메소드 호출
-        loadKoreanRestaurants();
+        loadKoreanRestaurants(name, address); // 수정: name과 address 전달
     }
 
     // 음식점 리스트에 음식점 추가 메서드
-    public void addRestaurant(Restaurant restaurant, String imagePath) {
+    public void addRestaurant(Restaurant restaurant, String imagePath, String name, String address) {
         JPanel restaurantPanel = new JPanel();
         restaurantPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         restaurantPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -59,7 +75,7 @@ public class FrameKorean extends JPanel {
         // 이미지 버튼 클릭 시 액션 리스너 추가
         imageButton.addActionListener(e -> {
             FrameBase.getDispose();
-            Frame1_1.showRestaurantMenu(restaurant, frameKoreanPanel, getName(), TOOL_TIP_TEXT_KEY); // 이름과 주소를 전달
+            Frame1_1.showRestaurantMenu(restaurant, frameKoreanPanel, name, address); // 수정: name과 address 전달
         });
 
         // 음식점 정보 추가
@@ -92,9 +108,9 @@ public class FrameKorean extends JPanel {
     }
 
     // 한식 음식점을 로드하고 리스트에 추가하는 메소드
-    public void loadKoreanRestaurants() {
+    public void loadKoreanRestaurants(String name, String address) { // 수정: name과 address 전달
         for (Restaurant restaurant : RestaurantDAO.getKoreanRestaurants()) {
-            addRestaurant(restaurant, "img/restaurant_image.png");  // 각 음식점에 이미지 경로를 전달
+            addRestaurant(restaurant, "img/restaurant_image.png", name, address);  // 각 음식점에 이미지 경로와 name, address 전달
         }
     }
 }

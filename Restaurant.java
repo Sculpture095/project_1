@@ -5,12 +5,24 @@ import java.util.List;
 
 public class Restaurant {
 
-    private String name;  //ìŒì‹ì  ì´ë¦„
-    private List<Menu> menuList; //ë©”ë‰´
+    private String name;  //À½½ÄÁ¡ ÀÌ¸§
+    private List<Menu> menuList; //¸Ş´º
 
-    private double restaurantScore; // ìŒì‹ì  í‰ì 
-    private double distance; //ê°€ê²Œì˜ ê±°ë¦¬
-    private long deliveryPrice; //ê¸°ë³¸ë°°ë‹¬ë¹„, ìµœì¢…ë°°ë‹¬ë¹„ëŠ” ê¸°ë³¸ë°°ë‹¬ë¹„+ê±°ë¦¬ì— ë”°ë¥¸ ë¹„ìš©
+    private double restaurantScore; // À½½ÄÁ¡ ÆòÁ¡
+    private double distance; //°¡°ÔÀÇ °Å¸®
+    private long deliveryPrice; //±âº»¹è´Şºñ, ÃÖÁ¾¹è´Şºñ´Â ±âº»¹è´Şºñ+°Å¸®¿¡ µû¸¥ ºñ¿ë
+    private String imagePath;
+    private String description;
+
+    public Restaurant(String name,
+                      double restaurantScore, double distance, long deliveryPrice,String description) {
+        this.name = name;
+        this.menuList = new ArrayList<>();
+        this.restaurantScore = restaurantScore;
+        this.distance = distance;
+        this.deliveryPrice = deliveryPrice;
+        this.description = description;
+    }
 
     public Restaurant(String name,
                       double restaurantScore, double distance, long deliveryPrice) {
@@ -21,7 +33,7 @@ public class Restaurant {
         this.deliveryPrice = deliveryPrice;
     }
 
-    //ë©”ë‰´ë¥¼ ì¶”ê°€í•˜ëŠ” ë©”ì†Œë“œ
+    //¸Ş´º¸¦ Ãß°¡ÇÏ´Â ¸Ş¼Òµå
     public void addMenu(Menu menu){
         menuList.add(menu);
     }
@@ -64,5 +76,13 @@ public class Restaurant {
 
     public void setDeliveryPrice(long deliveryPrice) {
         this.deliveryPrice = deliveryPrice;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getImagePath() {
+        return imagePath;
     }
 }
